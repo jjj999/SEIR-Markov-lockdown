@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "seir-markov-lockdown"
+version = "0.1.0"
+description = ""
+authors = ["Yunhyeon Jeong <jjj999to@gmail.com>"]
+readme = "README.md"
+packages = [{include = "seir_markov_lockdown"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+matplotlib = "^3.8.4"
+pydantic = "^2.7.1"
+
+
+[tool.poetry.group.dev.dependencies]
+invoke = "^2.2.0"
+pytest = "^8.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
