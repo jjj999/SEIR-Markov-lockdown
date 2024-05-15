@@ -71,9 +71,9 @@ class City:
         assert self._current_visitables is not None
         self._current_visitables.add(city)
 
-    def remove_visitable(self, city: City) -> None:
+    def discard_visitable(self, city: City) -> None:
         assert self._current_visitables is not None
-        self._current_visitables.remove(city)
+        self._current_visitables.discard(city)
 
 
 class CityGroup:
@@ -122,8 +122,7 @@ class CityGroup:
             # Resricting unlocked -> locked.
             else:
                 for city_lockdowned in self._cities:
-                    if city_lockdowned in city._current_visitables:
-                        city.remove_visitable(city_lockdowned)
+                    city.discard_visitable(city_lockdowned)
 
     def unlock(self, cities: list[City]) -> None:
         self._in_lockdown = False
@@ -134,6 +133,9 @@ class CityGroup:
                 city.unlock()
             # Enabling unlocked -> locked.
             else:
+                if city.in_lockdown:
+                    continue
+
                 for city_lockdowned in self._cities:
                     if city_lockdowned in city._initial_visitables:
                         city.add_visitable(city_lockdowned)
