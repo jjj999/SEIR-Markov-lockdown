@@ -97,6 +97,9 @@ class CityGroup:
     def __eq__(self, city_group: CityGroup) -> bool:
         return self.name == city_group.name
 
+    def __hash__(self) -> int:
+        return hash(self._name)
+
     @property
     def cities(self) -> tuple[City]:
         return tuple(self._cities)
