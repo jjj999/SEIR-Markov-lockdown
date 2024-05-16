@@ -1,0 +1,22 @@
+# input settings
+file_cities: cities.csv
+file_connections: connections.csv
+file_city_groups: city_groups.csv
+file_people: people.csv
+steps: 40
+
+# output settings
+file_output: result.mp4
+dpi: 100
+
+# plot settings
+xlim_min: 0.
+xlim_max: 100.
+ylim_min: 0.
+ylim_max: 100.
+city_color: black
+city_size: 300
+person_size: 100
+person_radius: 8.
+interval_per_step: 500
+interpolation_frames: 10
