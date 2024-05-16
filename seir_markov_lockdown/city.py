@@ -24,7 +24,7 @@ class City:
         return hash(self._name)
 
     def __str__(self) -> str:
-        return self._name
+        return f"city: {self._name}"
 
     def setup_initial_visitables(self, *visitables: City) -> None:
         if self._initial_visitables is not None:
@@ -99,6 +99,9 @@ class CityGroup:
 
     def __hash__(self) -> int:
         return hash(self._name)
+
+    def __str__(self) -> str:
+        return f"city group: {self._name}"
 
     @property
     def cities(self) -> tuple[City]:
