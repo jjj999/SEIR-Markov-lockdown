@@ -17,8 +17,10 @@ class City:
     def name(self) -> str:
         return self._name
 
-    def __eq__(self, city: City) -> bool:
-        return self.name == city.name
+    def __eq__(self, name_city: City | str) -> bool:
+        if isinstance(name_city, City):
+            name_city = name_city.name
+        return self.name == name_city
 
     def __hash__(self) -> int:
         return hash(self._name)
@@ -94,8 +96,10 @@ class CityGroup:
     def name(self) -> str:
         return self._name
 
-    def __eq__(self, city_group: CityGroup) -> bool:
-        return self.name == city_group.name
+    def __eq__(self, name_city_group: CityGroup | str) -> bool:
+        if isinstance(name_city_group, CityGroup):
+            name_city_group = name_city_group.name
+        return self.name == name_city_group
 
     def __hash__(self) -> int:
         return hash(self._name)
