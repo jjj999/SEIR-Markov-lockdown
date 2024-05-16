@@ -114,6 +114,12 @@ class CityGroup:
     def has_city(self, city: City) -> bool:
         return city in self._cities
 
+    def add_city(self, city: City) -> None:
+        self._cities.add(city)
+
+    def discard_city(self, city: City) -> None:
+        self._cities.discard(city)
+
     @property
     def lockdown_regulation(self) -> float:
         return self._lockdown_regulation
