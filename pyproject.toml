@@ -7,14 +7,13 @@ readme = "README.md"
 packages = [{include = "seir_markov_lockdown"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-matplotlib = "^3.8.4"
-pydantic = "^2.7.1"
-
+python = "^3.9"
+matplotlib = "^3.9.0"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
 pytest = "^8.2.0"
+ipykernel = "^6.29.4"
 
 [build-system]
 requires = ["poetry-core"]
