@@ -2,4 +2,4 @@
 
 Markov SEIR model with lockdown.
 
-![demo](./res/demo.gif)
+![demo](./examples/simple/result_simple.gif)
