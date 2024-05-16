@@ -9,6 +9,8 @@ packages = [{include = "seir_markov_lockdown"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 matplotlib = "^3.9.0"
+pyyaml = "^6.0.1"
+pydantic = "^2.7.1"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"

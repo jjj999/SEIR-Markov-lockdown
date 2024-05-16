@@ -1,3 +1,4 @@
+import copy
 import math
 import typing as t
 
@@ -5,10 +6,13 @@ import matplotlib as mpl
 import matplotlib.animation as anim
 import matplotlib.pyplot as plt
 
+from .config import PlotConfig
+from .load import load_world
 from .. import (
+    City,
     Person,
     PersonState,
-    City,
+    World,
 )
 
 
@@ -158,3 +162,169 @@ def draw_interpolation(
         axis.scatter(x, y, s=person_size, color=color)
 
     return axis
+
+
+def _plot_anim_frame(
+    i: int,
+    fig: mpl.figure.Figure,
+    axis: mpl.axes.Axes,
+    world: World,
+    cities_pos: dict[str, tuple[float, float]],
+    xlim: tuple[float, float] = (0., 100.),
+    ylim: tuple[float, float] = (0., 100.),
+    city_color: str = "black",
+    city_size: int = 300,
+    person_size: int = 100,
+    person_radius: float = 8.,
+    person_colors: dict[PersonState, str] = DEFAULT_PERSON_COLORS,
+) -> None:
+    axis.cla()
+    axis = fig.get_axes()[0]
+
+    axis = init_draw_axis(
+        axis,
+        world.cities,
+        cities_pos,
+        xlim=xlim,
+        ylim=ylim,
+        city_color=city_color,
+        city_size=city_size,
+        person_size=person_size,
+        person_colors=person_colors,
+    )
+    axis = draw_people(
+        axis,
+        world.people,
+        cities_pos,
+        person_radius=person_radius,
+        person_size=person_size,
+        person_colors=person_colors,
+    )
+
+    axis.set_title(f"Step: {i + 1}")
+    axis.tick_params(
+        bottom=False, left=False, right=False, top=False,
+        labelbottom=False, labelleft=False, labelright=False, labeltop=False,
+    )
+    if i == 0:
+        fig.legend(loc="lower left", bbox_to_anchor=(0.1, 0.1, 1, 1))
+
+    world.update()
+
+
+def _plot_anim_frame_with_interpolation(
+    i: int,
+    fig: mpl.figure.Figure,
+    axis: mpl.axes.Axes,
+    world: World,
+    cities_pos: dict[str, tuple[float, float]],
+    prev_people: list[Person],
+    interpolation_frames: int,
+    xlim: tuple[float, float] = (0., 100.),
+    ylim: tuple[float, float] = (0., 100.),
+    city_color: str = "black",
+    city_size: int = 300,
+    person_size: int = 100,
+    person_radius: float = 8.,
+    person_colors: dict[PersonState, str] = DEFAULT_PERSON_COLORS,
+) -> None:
+    axis.cla()
+    axis = fig.get_axes()[0]
+
+    axis = init_draw_axis(
+        axis,
+        world.cities,
+        cities_pos,
+        xlim=xlim,
+        ylim=ylim,
+        city_color=city_color,
+        city_size=city_size,
+        person_size=person_size,
+        person_colors=person_colors,
+    )
+
+    if i % interpolation_frames == 0:
+        prev_people.clear()
+        prev_people.extend([copy.copy(p) for p in world.people])
+        axis = draw_people(
+            axis,
+            world.people,
+            cities_pos,
+            person_radius=person_radius,
+            person_size=person_size,
+            person_colors=person_colors,
+        )
+        world.update()
+    else:
+        axis = draw_interpolation(
+            axis,
+            world.people,
+            prev_people,
+            cities_pos,
+            interpolation_frames,
+            i % interpolation_frames,
+            person_radius=person_radius,
+            person_size=person_size,
+            person_colors=person_colors,
+        )
+
+    axis.set_title(f"Step: {i // interpolation_frames + 1}")
+    axis.tick_params(
+        bottom=False, left=False, right=False, top=False,
+        labelbottom=False, labelleft=False, labelright=False, labeltop=False,
+    )
+    if i == 0:
+        fig.legend(loc="lower left", bbox_to_anchor=(0.1, 0.1, 1, 1))
+
+
+def plot_anim(config: PlotConfig) -> None:
+    world, cities_pos = load_world(
+        config.file_cities,
+        config.file_connections,
+        config.file_city_groups,
+        config.file_people,
+    )
+    fig, axis = plt.subplots()
+
+    if config.interpolation_frames > 0:
+        ani = anim.FuncAnimation(
+            fig,
+            _plot_anim_frame_with_interpolation,
+            frames=config.steps * config.interpolation_frames,
+            interval=config.interval_per_step // config.interpolation_frames,
+            fargs=(
+                fig,
+                axis,
+                world,
+                cities_pos,
+                [],
+                config.interpolation_frames,
+                (config.xlim_min, config.xlim_max),
+                (config.ylim_min, config.ylim_max),
+                config.city_color,
+                config.city_size,
+                config.person_size,
+                config.person_radius,
+            ),
+        )
+    else:
+        ani = anim.FuncAnimation(
+            fig,
+            _plot_anim_frame,
+            frames=config.steps,
+            interval=config.interval_per_step,
+            fargs=(
+                fig,
+                axis,
+                world,
+                cities_pos,
+                (config.xlim_min, config.xlim_max),
+                (config.ylim_min, config.ylim_max),
+                config.city_color,
+                config.city_size,
+                config.person_size,
+                config.person_radius,
+            ),
+        )
+
+    ani.save(config.file_output, dpi=config.dpi)

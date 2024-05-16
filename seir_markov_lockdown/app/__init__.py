@@ -1,3 +1,7 @@
+from .config import (
+    PlotConfig,
+    load_plot_config,
+)
 from .load import (
     load_cities,
     load_city_groups,
@@ -10,4 +14,5 @@ from .plot import (
     draw_interpolation,
     draw_people,
     init_draw_axis,
+    plot_anim,
 )
