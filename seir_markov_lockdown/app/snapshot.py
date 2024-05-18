@@ -46,6 +46,7 @@ def load_world_from_snapshot(
         file_city_groups,
         file_people,
     )
+    cities = {city.name: city for city in world.cities}
 
     with open(file_snapshot, "rt") as f:
         reader = csv.reader(f, FIELDS_SNAPSHOTS)
@@ -71,7 +72,7 @@ def load_world_from_snapshot(
             )
             person._position = check_city_def(
                 city_name,
-                world.cities,
+                cities,
                 file_snapshot,
                 line,
             )
