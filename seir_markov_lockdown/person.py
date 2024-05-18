@@ -45,8 +45,8 @@ class Person:
         self._steps_for_recover = steps_for_recover
 
         self._next_state: t.Optional[PersonState] = None
-        self._steps_for_onset_remaining: t.Optional[int] = None
-        self._steps_for_recover_remaining: t.Optional[int] = None
+        self._remaining_steps_for_onset: t.Optional[int] = None
+        self._remaining_steps_for_recover: t.Optional[int] = None
 
     @property
     def position(self) -> City:
@@ -77,6 +77,14 @@ class Person:
     def state(self) -> PersonState:
         return self._state
 
+    @property
+    def remaining_steps_for_onset(self) -> t.Optional[int]:
+        return self._remaining_steps_for_onset
+
+    @property
+    def remaining_steps_for_recover(self) -> t.Optional[int]:
+        return self._remaining_steps_for_recover
+
     def eval_next_state(self, counts: CountsPeople_t) -> Person:
         # Taking self counting into account.
         counts[self.state] -= 1
@@ -99,7 +107,7 @@ class Person:
             self._next_state = random.choices(possible_states, weights)[0]
 
             if self._next_state is PersonState.E:
-                self._steps_for_onset_remaining = self._steps_for_onset
+                self._remaining_steps_for_onset = self._steps_for_onset
         else:
             self._next_state = PersonState.S
 
@@ -108,7 +116,7 @@ class Person:
         if self._steps_for_onset <= 0:
             self._next_state = PersonState.I
             self._steps_for_onset = None
-            self._steps_for_recover_remaining = self._steps_for_recover
+            self._remaining_steps_for_recover = self._steps_for_recover
         else:
             self._next_state = PersonState.E
 
