@@ -31,7 +31,7 @@ pip install git+https://github.com/jjj999/SEIR-Markov-lockdown.git
 ### Run with taking snapshots
 
 1. Copy and edit the template files:
-   1. [snapshot_config.yaml](./examples/template/snapshot_config.yaml): Config file for plotting.
+   1. [snapshot_config.yaml](./examples/template/snapshot_config.yaml): Config file for snapshots.
    2. [cities.csv](./examples/template/cities.csv): Definition of cities.
    3. [connections.csv](./examples/template/connections.csv): Definition of city connections.
    4. [city_groups.csv](./examples/template/city_groups.csv): Definition of city groups.
