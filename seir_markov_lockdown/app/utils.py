@@ -48,6 +48,17 @@ def check_int(
     return val
 
 
+def check_nullable_int(
+    raw: str,
+    file: Path | str,
+    line: int,
+    positive: bool = False,
+) -> float:
+    if raw == "":
+        return None
+    return check_int(raw, file, line, positive=positive)
+
+
 def check_city_def(
     city_name: str,
     cities: dict[str, City],
