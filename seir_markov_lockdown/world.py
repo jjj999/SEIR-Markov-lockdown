@@ -34,8 +34,6 @@ class World:
         return tuple(self._city_groups)
 
     def update(self) -> None:
-        self._lockdown()
-
         for person in self._people:
             person.update_position()
 
@@ -46,6 +44,8 @@ class World:
 
         for person in self._people:
             person.update_state()
+
+        self._lockdown()
 
     def _get_people_in_same_city(self, person: Person) -> list[Person]:
         result = []
