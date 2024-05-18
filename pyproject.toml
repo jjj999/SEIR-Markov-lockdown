@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "seir-markov-lockdown"
-version = "0.2.0"
+version = "0.2.1"
 description = ""
 authors = ["Yunhyeon Jeong <jjj999to@gmail.com>"]
 readme = "README.md"
@@ -17,6 +17,7 @@ click = "^8.1.7"
 invoke = "^2.2.0"
 pytest = "^8.2.0"
 ipykernel = "^6.29.4"
+pillow = "^10.3.0"
 
 [build-system]
 requires = ["poetry-core"]
