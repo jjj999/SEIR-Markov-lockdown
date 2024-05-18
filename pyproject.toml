@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "seir-markov-lockdown"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Yunhyeon Jeong <jjj999to@gmail.com>"]
 readme = "README.md"
