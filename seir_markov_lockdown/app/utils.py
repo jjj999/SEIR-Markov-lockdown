@@ -24,7 +24,12 @@ def check_prob(raw: str, file: Path | str, line: int) -> float:
     return val
 
 
-def check_int(raw: str, file: Path | str, line: int, positive: bool = False) -> float:
+def check_int(
+    raw: str,
+    file: Path | str,
+    line: int,
+    positive: bool = False,
+) -> int:
     try:
         val = int(raw)
     except ValueError as e:
