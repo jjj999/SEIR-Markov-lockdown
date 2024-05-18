@@ -16,3 +16,10 @@ from .plot import (
     init_draw_axis,
     plot_anim,
 )
+from .utils import (
+    check_city_def,
+    check_float,
+    check_int,
+    check_prob,
+    check_state,
+)
