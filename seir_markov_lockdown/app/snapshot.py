@@ -39,8 +39,8 @@ def load_world_from_snapshot(
     file_city_groups: Path | str,
     file_people: Path | str,
     skip_rows: int = 1,
-) -> World:
-    world, _ = load_world(
+) -> tuple[World, dict[str, tuple[float, float]]]:
+    world, cities_pos = load_world(
         file_cities,
         file_connections,
         file_city_groups,
@@ -78,4 +78,4 @@ def load_world_from_snapshot(
             )
 
     world._lockdown()
-    return world
+    return (world, cities_pos)
