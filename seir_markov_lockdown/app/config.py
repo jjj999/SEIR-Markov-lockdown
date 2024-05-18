@@ -38,3 +38,23 @@ def load_plot_config(file_config: Path | str) -> PlotConfig:
         config = yaml.safe_load(f)
 
     return PlotConfig(**config)
+
+
+class SnapshotConfig(pydantic.BaseModel):
+
+    # input settings
+    file_cities: str
+    file_connections: str
+    file_city_groups: str
+    file_people: str
+    steps: int
+
+    # output settings
+    dir_snapshots: str
+
+
+def load_snapshot_config(file_config: Path | str) -> SnapshotConfig:
+    with open(file_config, "rt") as f:
+        config = yaml.safe_load(f)
+
+    return SnapshotConfig(**config)
