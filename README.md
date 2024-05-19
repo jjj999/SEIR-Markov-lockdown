@@ -45,3 +45,4 @@ pip install git+https://github.com/jjj999/SEIR-Markov-lockdown.git
 ## Examples
 
 - [simple](./examples/simple/): Example with the simple definitions.
+- [tokyo](./examples/tokyo/): Simulation based on travel between 30 major stations in Tokyo.
