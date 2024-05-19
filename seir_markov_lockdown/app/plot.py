@@ -16,11 +16,17 @@ from .. import (
 )
 
 
-DEFAULT_PERSON_COLORS = {
+DEFAULT_PERSON_COLORS: dict[PersonState, str] = {
     PersonState.S: "blue",
     PersonState.E: "orange",
     PersonState.I: "red",
     PersonState.R: "green",
+}
+DEFAULT_PERSON_ALPHAS: dict[PersonState, float] = {
+    PersonState.S: 0.1,
+    PersonState.E: 0.5,
+    PersonState.I: 1.0,
+    PersonState.R: 0.1,
 }
 
 
@@ -96,19 +102,35 @@ def draw_people(
     person_radius: float = 8.,
     person_size: int = 100,
     person_colors: dict[PersonState, str] = DEFAULT_PERSON_COLORS,
+    person_alphas: dict[PersonState, float] = DEFAULT_PERSON_ALPHAS,
 ) -> mpl.axes.Axes:
     population = len(people)
+    state_xy = {
+        PersonState.S: [[], []],
+        PersonState.E: [[], []],
+        PersonState.I: [[], []],
+        PersonState.R: [[], []],
+    }
+
     for i, person in enumerate(people):
-        axis.scatter(
-            *calc_person_position(
-                cities_pos[person.position.name],
-                person_radius,
-                population,
-                i,
-            ),
-            s=person_size,
-            color=person_colors[person.state],
+        x, y = calc_person_position(
+            cities_pos[person.position.name],
+            person_radius,
+            population,
+            i,
         )
+        state_xy[person.state][0].append(x)
+        state_xy[person.state][1].append(y)
+
+    for state, (x, y) in state_xy.items():
+        axis.scatter(
+            x,
+            y,
+            s=person_size,
+            color=person_colors[state],
+            alpha=person_alphas[state],
+        )
+
     return axis
 
 
@@ -122,8 +144,16 @@ def draw_interpolation(
     person_radius: float = 8.,
     person_size: int = 100,
     person_colors: dict[PersonState, str] = DEFAULT_PERSON_COLORS,
+    person_alphas: dict[PersonState, str] = DEFAULT_PERSON_ALPHAS,
 ) -> mpl.axes.Axes:
     population = len(next_people)
+    state_xy = {
+        PersonState.S: [[], []],
+        PersonState.E: [[], []],
+        PersonState.I: [[], []],
+        PersonState.R: [[], []],
+    }
+
     for i, person in enumerate(zip(next_people, prev_people)):
         next_person, previous_person = person
 
@@ -134,7 +164,7 @@ def draw_interpolation(
                 population,
                 i,
             )
-            color=person_colors[next_person.state]
+            state = next_person.state
         else:
             next_pos = calc_person_position(
                 cities_pos[next_person.position.name],
@@ -148,23 +178,38 @@ def draw_interpolation(
                 population,
                 i,
             )
-            slope = (next_pos[1] - prev_pos[1]) / (next_pos[0] - prev_pos[0])
-            delta_x = (next_pos[0] - prev_pos[0]) / interpolation_frames
+
+            if next_pos[0] - prev_pos[0] == 0:
+                delta_y = (next_pos[1] - prev_pos[1]) / interpolation_frames
+                x = prev_pos[0]
+                y = prev_pos[1] + delta_y * step
+            else:
+                slope = (next_pos[1] - prev_pos[1]) / (next_pos[0] - prev_pos[0])
+                delta_x = (next_pos[0] - prev_pos[0]) / interpolation_frames
+                x = prev_pos[0] + delta_x * step
+                y = prev_pos[1] + slope * delta_x * step
 
             if step < (interpolation_frames / 2):
-                color = person_colors[next_person.state]
+                state = next_person.state
             else:
-                color = person_colors[previous_person.state]
+                state = previous_person.state
 
-            x = prev_pos[0] + delta_x * step
-            y = prev_pos[1] + slope * delta_x * step
+        state_xy[state][0].append(x)
+        state_xy[state][1].append(y)
 
-        axis.scatter(x, y, s=person_size, color=color)
+    for state, (x, y) in state_xy.items():
+        axis.scatter(
+            x,
+            y,
+            s=person_size,
+            color=person_colors[state],
+            alpha=person_alphas[state],
+        )
 
     return axis
 
 
-def _plot_anim_frame(
+def plot_anim_frame(
     i: int,
     fig: mpl.figure.Figure,
     axis: mpl.axes.Axes,
@@ -177,6 +222,7 @@ def _plot_anim_frame(
     person_size: int = 100,
     person_radius: float = 8.,
     person_colors: dict[PersonState, str] = DEFAULT_PERSON_COLORS,
+    person_alphas: dict[PersonState, str] = DEFAULT_PERSON_ALPHAS,
 ) -> None:
     axis.cla()
     axis = fig.get_axes()[0]
@@ -199,6 +245,7 @@ def _plot_anim_frame(
         person_radius=person_radius,
         person_size=person_size,
         person_colors=person_colors,
+        person_alphas=person_alphas,
     )
 
     axis.set_title(f"Step: {i + 1}")
@@ -212,7 +259,7 @@ def _plot_anim_frame(
     world.update()
 
 
-def _plot_anim_frame_with_interpolation(
+def plot_anim_frame_with_interpolation(
     i: int,
     fig: mpl.figure.Figure,
     axis: mpl.axes.Axes,
@@ -227,6 +274,7 @@ def _plot_anim_frame_with_interpolation(
     person_size: int = 100,
     person_radius: float = 8.,
     person_colors: dict[PersonState, str] = DEFAULT_PERSON_COLORS,
+    person_alphas: dict[PersonState, str] = DEFAULT_PERSON_ALPHAS,
 ) -> None:
     axis.cla()
     axis = fig.get_axes()[0]
@@ -253,6 +301,7 @@ def _plot_anim_frame_with_interpolation(
             person_radius=person_radius,
             person_size=person_size,
             person_colors=person_colors,
+            person_alphas=person_alphas,
         )
         world.update()
     else:
@@ -266,6 +315,7 @@ def _plot_anim_frame_with_interpolation(
             person_radius=person_radius,
             person_size=person_size,
             person_colors=person_colors,
+            person_alphas=person_alphas,
         )
 
     axis.set_title(f"Step: {i // interpolation_frames + 1}")
@@ -289,7 +339,7 @@ def plot_anim(config: PlotConfig) -> None:
     if config.interpolation_frames > 0:
         ani = anim.FuncAnimation(
             fig,
-            _plot_anim_frame_with_interpolation,
+            plot_anim_frame_with_interpolation,
             frames=config.steps * config.interpolation_frames,
             interval=config.interval_per_step // config.interpolation_frames,
             fargs=(
@@ -310,7 +360,7 @@ def plot_anim(config: PlotConfig) -> None:
     else:
         ani = anim.FuncAnimation(
             fig,
-            _plot_anim_frame,
+            plot_anim_frame,
             frames=config.steps,
             interval=config.interval_per_step,
             fargs=(

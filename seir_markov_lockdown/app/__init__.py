@@ -11,12 +11,15 @@ from .load import (
     load_world,
 )
 from .plot import (
-    calc_person_position,
+    DEFAULT_PERSON_ALPHAS,
     DEFAULT_PERSON_COLORS,
+    calc_person_position,
     draw_interpolation,
     draw_people,
     init_draw_axis,
     plot_anim,
+    plot_anim_frame,
+    plot_anim_frame_with_interpolation,
 )
 from .snapshot import (
     load_world_from_snapshot,
