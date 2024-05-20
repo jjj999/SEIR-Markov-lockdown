@@ -112,19 +112,19 @@ class Person:
             self._next_state = PersonState.S
 
     def _eval_next_state_when_E(self, counts_others: CountsPeople_t) -> None:
-        self._steps_for_onset -= 1
-        if self._steps_for_onset <= 0:
+        self._remaining_steps_for_onset -= 1
+        if self._remaining_steps_for_onset <= 0:
             self._next_state = PersonState.I
-            self._steps_for_onset = None
+            self._remaining_steps_for_onset = None
             self._remaining_steps_for_recover = self._steps_for_recover
         else:
             self._next_state = PersonState.E
 
     def _eval_next_state_when_I(self, counts_others: CountsPeople_t) -> None:
-        self._steps_for_recover -= 1
-        if self._steps_for_recover <= 0:
+        self._remaining_steps_for_recover -= 1
+        if self._remaining_steps_for_recover <= 0:
             self._next_state = PersonState.R
-            self._steps_for_recover = None
+            self._remaining_steps_for_recover = None
         else:
             self._next_state = PersonState.I
 
