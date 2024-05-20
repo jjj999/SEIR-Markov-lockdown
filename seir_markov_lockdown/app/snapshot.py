@@ -1,6 +1,10 @@
 import csv
 from pathlib import Path
 
+from .config import (
+    SnapshotConfig,
+    load_snapshot_config,
+)
 from .load import load_world
 from .utils import (
     check_city_def,
@@ -30,6 +34,28 @@ def snapshot_world(world: World, file: Path | str) -> None:
                 person.remaining_steps_for_onset,
                 person.remaining_steps_for_recover,
             ])
+
+
+def run_with_snapshots(config: SnapshotConfig) -> None:
+    digits = len(str(config.steps))
+
+    dir_snapshots = Path(config.dir_snapshots).resolve()
+    if not dir_snapshots.exists():
+        dir_snapshots.mkdir()
+
+    world, _ = load_world(
+        config.file_cities,
+        config.file_connections,
+        config.file_city_groups,
+        config.file_people,
+    )
+    for i in range(0, config.steps + 1):
+        path_snapshot = dir_snapshots / f"{str(i).zfill(digits)}.csv"
+        if i == 0:
+            snapshot_world(world, path_snapshot)
+
+        world.update()
+        snapshot_world(world, path_snapshot)
 
 
 def load_world_from_snapshot(

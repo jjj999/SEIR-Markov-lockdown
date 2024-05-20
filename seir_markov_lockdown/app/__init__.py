@@ -23,6 +23,7 @@ from .plot import (
 )
 from .snapshot import (
     load_world_from_snapshot,
+    run_with_snapshots,
     snapshot_world,
 )
 from .utils import (
