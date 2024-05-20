@@ -166,7 +166,7 @@ def plot_anim(
         ),
     )
 
-    ani.save(dir_cond / "result_350.mp4", dpi=100)
+    ani.save(dir_cond / "result.mp4", dpi=100)
 
 
 def main(*dirs_cond: str, num_processes: int = 6) -> None:
