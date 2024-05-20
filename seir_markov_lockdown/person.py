@@ -48,6 +48,11 @@ class Person:
         self._remaining_steps_for_onset: t.Optional[int] = None
         self._remaining_steps_for_recover: t.Optional[int] = None
 
+        if self._state == PersonState.E:
+            self._remaining_steps_for_onset = self._steps_for_onset
+        elif self.state == PersonState.I:
+            self._remaining_steps_for_recover = self._steps_for_recover
+
     @property
     def position(self) -> City:
         return self._position
