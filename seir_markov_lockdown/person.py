@@ -62,17 +62,17 @@ class Person:
         next_cities.extend(self.position.current_visitables)
         num_next = len(next_cities)
 
-        if num_next == 1:
+        if num_next == 0:
             return self
 
         p_staying = self._p_staying
-        weight_others = (1 - self._p_staying) / (num_next - 1)
+        weight_others = (1 - self._p_staying) / num_next
         if self.state == PersonState.I:
             weight_others = self._action_regulation * weight_others
-            p_staying = 1 - (num_next - 1) * weight_others
+            p_staying = 1 - num_next * weight_others
 
         weights = [p_staying]
-        weights.extend([weight_others for _ in range(num_next - 1)])
+        weights.extend([weight_others for _ in range(num_next)])
 
         next_city = random.choices(next_cities, weights=weights)[0]
         self._position = next_city
