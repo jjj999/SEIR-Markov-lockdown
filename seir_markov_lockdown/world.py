@@ -40,7 +40,7 @@ class World:
         for city in self.cities:
             counts = self._count_people_in_city(city)
             for person in self._get_people_in_city(city):
-                person.eval_next_state(counts)
+                person.eval_next_state(counts.copy())
 
         for person in self._people:
             person.update_state()
