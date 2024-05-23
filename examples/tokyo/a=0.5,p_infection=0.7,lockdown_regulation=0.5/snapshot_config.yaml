@@ -1,9 +1,0 @@
-# input settings
-file_cities: cities.csv
-file_connections: connections.csv
-file_city_groups: city_groups.csv
-file_people: people.csv
-steps: 5000
-
-# output settings
-dir_snapshots: snapshots
