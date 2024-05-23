@@ -14,20 +14,6 @@ pip install git+https://github.com/jjj999/SEIR-Markov-lockdown.git
 
 ## Usage
 
-### Run with plotting
-
-1. Copy and edit the template files:
-   1. [plot_config.yaml](./examples/template/plot_config.yaml): Config file for plotting.
-   2. [cities.csv](./examples/template/cities.csv): Definition of cities.
-   3. [connections.csv](./examples/template/connections.csv): Definition of city connections.
-   4. [city_groups.csv](./examples/template/city_groups.csv): Definition of city groups.
-   5. [people.csv](./examples/template/people.csv): Definition of people.
-2. Run simulation:
-  ```sh
-  cd /path/to/directory/   # if needed
-  python -m seir_markov_lockdown plot plot_config.yaml
-  ```
-
 ### Run with taking snapshots
 
 1. Copy and edit the template files:
@@ -39,7 +25,21 @@ pip install git+https://github.com/jjj999/SEIR-Markov-lockdown.git
 2. Run simulation:
   ```sh
   cd /path/to/directory/   # if needed
-  python -m seir_markov_lockdown snapshot snapshot_config.yaml
+  seir-markov-lockdown snapshot snapshot_config.yaml
+  ```
+
+### Run with plotting
+
+1. Copy and edit the template files:
+   1. [plot_config.yaml](./examples/template/plot_config.yaml): Config file for plotting.
+   2. [cities.csv](./examples/template/cities.csv): Definition of cities.
+   3. [connections.csv](./examples/template/connections.csv): Definition of city connections.
+   4. [city_groups.csv](./examples/template/city_groups.csv): Definition of city groups.
+   5. [people.csv](./examples/template/people.csv): Definition of people.
+2. Run simulation:
+  ```sh
+  cd /path/to/directory/   # if needed
+  seir-markov-lockdown plot plot_config.yaml
   ```
 
 ## Examples
