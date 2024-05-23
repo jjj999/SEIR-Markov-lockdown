@@ -6,10 +6,14 @@ Markov SEIR model with lockdown.
 
 ## Installation
 
-- Python version: ^3.9
+- Python version: ^3.10
 
 ```sh
+# pip
 pip install git+https://github.com/jjj999/SEIR-Markov-lockdown.git
+
+# pipx (only for using the app)
+pipx install git+https://github.com/jjj999/SEIR-Markov-lockdown.git
 ```
 
 ## Usage
