@@ -1,24 +1,25 @@
 [tool.poetry]
 name = "seir-markov-lockdown"
 version = "0.2.3"
-description = ""
+description = "Markov SEIR model with lockdown."
 authors = ["Yunhyeon Jeong <jjj999to@gmail.com>"]
+license = "MIT"
 readme = "README.md"
 packages = [{include = "seir_markov_lockdown"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-matplotlib = "^3.9.0"
-pyyaml = "^6.0.1"
-pydantic = "^2.7.1"
+python = "^3.10"
 click = "^8.1.7"
+matplotlib = "^3.9.0"
+pydantic = "^2.7.1"
+pyyaml = "^6.0.1"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
-pytest = "^8.2.0"
 ipykernel = "^6.29.4"
-pillow = "^10.3.0"
 japanize-matplotlib = "^1.1.3"
+pillow = "^10.3.0"
+pytest = "^8.2.1"
 
 [build-system]
 requires = ["poetry-core"]
