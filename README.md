@@ -2,7 +2,7 @@
 
 Markov SEIR model with lockdown.
 
-![demo](./examples/simple/result_simple.gif)
+![demo](./examples/tokyo/a=0.5,p_infection=0.01,lockdown_regulation=0.1/result.gif)
 
 ## Installation
 
